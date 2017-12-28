@@ -12,6 +12,9 @@ public class fanxing {
         System.out.println(map.get("how are you?"));
         test();
         System.out.println(3L==3);
+        String xl="xulinchao";
+        System.out.println(xl.codePointAt(1));
+        System.out.println(Character.charCount(xl.codePointAt(5)));
 //         int i=1;
 //         int j=1;
 //        System.out.println(i==j);
@@ -58,7 +61,7 @@ public class fanxing {
      * 不能共存的，下面两个方法，
      * 因为泛型在进行类型擦除的时候
      * 两个方法的签名完全一致
-     * java的签名只看方法名，参数名，参数顺序，如果一致，则表明两个方法的签名一致，不允许编译。
+     * java的签名只看方法名，参数类型，参数顺序，如果一致，则表明两个方法的签名一致，不允许编译。
      */
     public static String method(List<String> list) {
         System.out.println("invoke method(List<String> list)");
