@@ -1,10 +1,7 @@
 package com.xulinchao.NameCheckProcessor;
 
 import javax.annotation.processing.Messager;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.VariableElement;
+import javax.lang.model.element.*;
 import javax.lang.model.util.ElementScanner8;
 import javax.tools.Diagnostic;
 
@@ -16,12 +13,27 @@ public class NameCheckScanner extends ElementScanner8 {
     }
 
     /**
-     * 检查字段，也就是变量
+     * 检查变量名是否合法
      **/
     @Override
     public Object visitVariable(VariableElement e, Object o) {
-        return super.visitVariable(e, o);
+
+        if(e.getKind()==ElementKind.ENUM_CONSTANT || e.getConstantValue()!=null)
+            checkAllCaps(e);
+        else
+            checkCamelCase(e,false);
+
+
+        return null;
     }
+
+    public void checkAllCaps(Element element){
+
+    }
+    /**
+     * 判断一个变量是否是常量
+     * **/
+    public boolean heurist
 
     /**
      * 检查java类
@@ -40,8 +52,18 @@ public class NameCheckScanner extends ElementScanner8 {
      **/
     @Override
     public Object visitExecutable(ExecutableElement e, Object o) {
+        if(e.getKind()== ElementKind.METHOD){
+            Name name=e.getSimpleName();
+            if(name.contentEquals(e.getEnclosingElement().getSimpleName())){
+                messager.printMessage(Diagnostic.Kind.WARNING, "一个普通的方法 " + name + " 不应当和类名重复，避免和构造函数产生混淆", e);
 
-        return super.visitExecutable(e, o);
+            }
+            checkCamelCase(e,false);
+
+        }
+        super.visitExecutable(e,o);
+
+        return null;
     }
 
     private void checkCamelCase(Element element, boolean initialCaps) {
