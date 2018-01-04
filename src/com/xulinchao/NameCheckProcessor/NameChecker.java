@@ -14,9 +14,7 @@ public class NameChecker {
         nameCheckScanner=new NameCheckScanner(this.messager);
     }
 
-    public Messager getMessager() {
-        return messager;
-    }
+
 
     /**
      * 对java名程序命名进行检查，是否符合驼式命名
